@@ -19,25 +19,17 @@ stop   VMOV.F32 R0,S2
 	   endfunc
 	   
 logic_xnor function
-	;VMOV.F32 s18, #10.0; ten
 	VMOV.F32 s13, #-1.0;bias
-	   ;VDIV.F32 s13, s13,s18
 	VMOV.F32 s20, #5.0; w1
-	  ; VDIV.F32 s20, s20,s18
 	VMOV.F32 s21, #-20.0;w2
-	   ;VDIV.F32 s21, s21,s18
 	VMOV.F32 s22,#-10.0;w3
 	BX lr
 	endfunc
 	
 logic_xor function
-	;VMOV.F32 s18, #10.0; ten
 	VMOV.F32 s13, #1.0;bias
-	   ;VDIV.F32 s13, s13,s18
 	VMOV.F32 s20, #-5.0; w1
-	  ; VDIV.F32 s20, s20,s18
 	VMOV.F32 s21, #20.0;w2
-	   ;VDIV.F32 s21, s21,s18
 	VMOV.F32 s22,#10.0;w3
 	BX lr
 	endfunc
@@ -45,65 +37,45 @@ logic_xor function
 logic_and function
 	VMOV.F32 s18, #10.0; ten
 	VMOV.F32 s13, #-5.0;bias
-	;VDIV.F32 s13, s13,s18
 	VMOV.F32 s20, #2.0; w1
-	;VDIV.F32 s20, s20,s18
 	VMOV.F32 s21, #2.0;w2
-	;VDIV.F32 s21, s21,s18
 	VMOV.F32 s22,#2.0;w3
-	;VDIV.F32 s22, s22,s18
 	BX lr
 	endfunc
 	
 logic_or function
 	VMOV.F32 s18, #10.0; ten
 	VMOV.F32 s13, #-1.0;bias
-	;VDIV.F32 s13, s13,s18
 	VMOV.F32 s20, #2.0; w1
-	;VDIV.F32 s20, s20,s18
 	VMOV.F32 s21, #2.0;w2
-	;VDIV.F32 s21, s21,s18
 	VMOV.F32 s22,#2.0;w3
-	;VDIV.F32 s22, s22,s18
 	BX lr
 	endfunc
 	
 logic_not function
 	VMOV.F32 s18, #10.0; ten
 	VMOV.F32 s13, #-1.0;bias
-	;VDIV.F32 s13, s13,s18
 	VMOV.F32 s20, #2.0; w1
-	;VDIV.F32 s20, s20,s18
 	VMOV.F32 s21, s17;w2
-	;VDIV.F32 s21, s21,s18
 	VMOV.F32 s22,s17;w3
-	;VDIV.F32 s22, s22,s18
 	BX lr
 	endfunc
 	
 logic_nand function
 	VMOV.F32 s18, #10.0; ten
 	VMOV.F32 s13, #5.0;bias
-	;VDIV.F32 s13, s13,s18
 	VMOV.F32 s20, #-2.0; w1
-	;VDIV.F32 s20, s20,s18
 	VMOV.F32 s21, #-2.0;w2
-	;VDIV.F32 s21, s21,s18
 	VMOV.F32 s22,#-2.0;w3
-	;VDIV.F32 s22, s22,s18
 	BX lr
 	endfunc
 	
 logic_nor function
 	VMOV.F32 s18, #10.0; ten
 	VMOV.F32 s13, #1.0;bias
-	;VDIV.F32 s13, s13,s18
 	VMOV.F32 s20, #-2.0; w1
-	;VDIV.F32 s20, s20,s18
 	VMOV.F32 s21, #-2.0;w2
-	;VDIV.F32 s21, s21,s18
 	VMOV.F32 s22,#-2.0;w3
-	;VDIV.F32 s22, s22,s18
 	BX lr
 	endfunc
 	   
@@ -137,8 +109,8 @@ __main  function
 	   VMOV.F32 s10, #1.0; in1
 	   VMOV.F32 s11, s17;in2
 	   VMOV.F32 s12,#1.0;in3
-	   BL logic_xor
-	   BL sigmoid
+	   BL logic_xor //function sets the weight for each gate.
+	   BL sigmoid //function predicts the output.
        BL printMsg; Refer to ARM Procedure calling standards.
 fullstop    B  fullstop ; stop program	   
      endfunc
