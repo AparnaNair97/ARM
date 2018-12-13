@@ -225,3 +225,4 @@ fullstop    B  fullstop ; stop program
      ;5 - NOT
      ;6 - NAND
      ;7 - NOR
+     ;printMsg2 is a new function to print a number with new line.
