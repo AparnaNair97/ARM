@@ -1,6 +1,8 @@
      area     appcode, CODE, READONLY
 	 IMPORT printMsg
-		 IMPORT printMsg2     
+	 IMPORT printMsg2     
+	 IMPORT print_num 
+	 IMPORT not1
 exp function
 	   VMOV.F32 s1, #1.0;
 	   VMOV.F32 s2, #1.0
@@ -104,6 +106,7 @@ sigmoid function
 	
 main2 function
 	   mov r10, r14 ; zero 100
+	   BL print_num;
 	   VMOV.F32 s17, r1; zero 100
 	   VMOV.F32 s10, #1.0; in1
 	   mov r0,#1;
@@ -114,9 +117,6 @@ main2 function
 	   VMOV.F32 s12,s17;in3
 	   mov r0,#0;
 	   bl printMsg;
-	   ;MOV R14, R15;
-;	   MRS r10, APSR_nzvc ;
-;	   bx r4;
 	   blx r4 ;function sets the weight for each gate.
 	   BL sigmoid ;function predicts the output.
        BL printMsg2; Refer to ARM Procedure calling standards.
@@ -131,9 +131,6 @@ main2 function
 	   VMOV.F32 s12,#1.0;in3
 	   mov r0,#1;
 	   bl printMsg;
-	   ;MOV R14, R15;
-;	   MRS r10, APSR_nzvc ;
-;	   bx r4;
 	   blx r4 ;function sets the weight for each gate.
 	   BL sigmoid ;function predicts the output.
        BL printMsg2; Refer to ARM Procedure calling standards.
@@ -148,9 +145,6 @@ main2 function
 	   VMOV.F32 s12,s17;in3
 	   mov r0,#0;
 	   bl printMsg;
-	   ;MOV R14, R15;
-;	   MRS r10, APSR_nzvc ;
-;	   bx r4;
 	   blx r4 ;function sets the weight for each gate.
 	   BL sigmoid ;function predicts the output.
        BL printMsg2; Refer to ARM Procedure calling standards.
@@ -165,9 +159,37 @@ main2 function
 	   VMOV.F32 s12,#1.0;in3
 	   mov r0,#1;
 	   bl printMsg;
-	   ;MOV R14, R15;
-;	   MRS r10, APSR_nzvc ;
-;	   bx r4;
+	   blx r4 ;function sets the weight for each gate.
+	   BL sigmoid ;function predicts the output.
+       BL printMsg2; Refer to ARM Procedure calling standards.
+	   MOV r14, r10
+	   BX lr;
+	endfunc	
+	
+main3 function
+	   mov r10, r14 ; zero 100
+	   mov r0, #5;
+	   BL print_num;
+	   VMOV.F32 s17, r1; zero 100
+	   VMOV.F32 s10, #1.0; in1
+	   mov r0,#1;
+	   VMOV.F32 s11, s17;in2
+	   mov r0,#0;
+	   bl printMsg;
+	   VMOV.F32 s12,s17;in3
+	   mov r0,#0;
+	   blx r4 ;function sets the weight for each gate.
+	   BL sigmoid ;function predicts the output.
+       BL printMsg2; Refer to ARM Procedure calling standards.
+	 
+	   VMOV.F32 s17, r1; zero 111
+	   VMOV.F32 s10, #1.0; in1
+	   mov r0,#1;
+	   VMOV.F32 s11, #1.0;in2
+	   mov r0,#1;
+	   bl printMsg;
+	   VMOV.F32 s12,#1.0;in3
+	   mov r0,#1;
 	   blx r4 ;function sets the weight for each gate.
 	   BL sigmoid ;function predicts the output.
        BL printMsg2; Refer to ARM Procedure calling standards.
@@ -181,48 +203,38 @@ __main  function
 	   LDR r1, = 0x00000000 ; cannot load 0.0 using
 	   LDR r4, =logic_xnor;
 	   MOV r0, #1;
-	   BL printMsg2
+	   BL not1
 	   BL main2
 	   
 	   LDR r4, =logic_xor;
 	   MOV r0, #2;
-	   BL printMsg2
+	   BL not1
 	   BL main2
 	   
 	   LDR r4, =logic_and;
 	   MOV r0, #3;
-	   BL printMsg2
+	   BL not1
 	   BL main2
 	   
 	   LDR r4, =logic_or;
 	   MOV r0, #4;
-	   BL printMsg2
+	   BL not1
 	   BL main2
 	   
 	   LDR r4, =logic_not; //not of second input.
 	   MOV r0, #5;
-	   BL printMsg2
-	   BL main2
+	   BL not1
+	   BL main3
 	   
 	   LDR r4, =logic_nand;
 	   MOV r0, #6;
-	   BL printMsg2
+	   BL not1
 	   BL main2
 	   
 	   LDR r4, =logic_nor;
 	   MOV r0, #7;
-	   BL printMsg2
+	   BL not1
 	   BL main2
 fullstop    B  fullstop ; stop program	   
      endfunc
      end
-     
-     ;the number signifies various gates.
-     ;1 - XNOR
-     ;2 - XOR
-     ;3 - AND
-     ;4 - OR
-     ;5 - NOT
-     ;6 - NAND
-     ;7 - NOR
-     ;printMsg2 is a new function to print a number with new line.
